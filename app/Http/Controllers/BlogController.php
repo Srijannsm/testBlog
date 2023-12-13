@@ -34,6 +34,7 @@ class BlogController extends Controller
             'description' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+        // dd($data);
 
         $user = Auth::user();
 
@@ -47,6 +48,7 @@ class BlogController extends Controller
             'author' => $user->name,
             'description' => $data['description'],
         ]);
+        // dd($newBlog);
         session()->flash('success', 'Blog created successfully.');
         return redirect()->route('blogs.user');
     }
