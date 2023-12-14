@@ -19,6 +19,7 @@ class BlogController extends Controller
     {
         $user = Auth::user();
         $blogs = Blog::where('userid', $user->id)->get();
+        // dd($blogs);
         return view('blogs.index', ['blogs' => $blogs]);
     }
 

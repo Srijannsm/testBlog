@@ -3,8 +3,8 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
-                    <img class="w-full h-64 object-cover object-center mb-4" src="{{ asset('storage/' . $blog->image) }}">
-                    <h1 class="text-3xl font-semibold mb-2">{{ $blog->title }}</h1>
+                    <h1 class="text-3xl font-semibold mb-5">{{ $blog->title }}</h1>
+                    <img class="w-full h-80 object-cover object-center mb-5" src="{{ asset('storage/' . $blog->image) }}">
                     <p class="text-gray-600 break-words mb-10">{{ $blog->description }}</p>
                     <p class="text-sm text-gray-500">Author: {{ $blog->author }}</p>
                     <p class="text-sm text-gray-500">Published: {{ $blog->created_at->format('M d, Y') }}</p>
@@ -19,13 +19,13 @@
             <h2 class="text-2xl font-semibold mb-4">Related Posts</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 @foreach ($relatedBlogs as $relatedBlog)
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg flex flex-col">
+                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg flex flex-col mb-5">
                         <img class="w-full h-48 object-cover object-center" src="{{ asset('storage/' . $relatedBlog->image) }}">
                         <div class="p-6 flex-1 flex flex-col justify-between">
                             <div>
                                 <h5 class="text-xl font-semibold">{{ $relatedBlog->title }}</h5>
                                 <p class="text-xs text-gray-600 break-words mb-4">
-                                    {{ Str::limit($blog->description, 150) }}
+                                    {{ Str::limit($relatedBlog->description, 150) }}
                                 </p>
                             </div>
                             <div class="mt-auto">

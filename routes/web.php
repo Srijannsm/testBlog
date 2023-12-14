@@ -19,7 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', [BlogController::class, 'index'])
+Route::get('/home', [BlogController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
