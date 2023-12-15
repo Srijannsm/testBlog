@@ -16,7 +16,7 @@
                                 name="title"
                                 class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
                                 placeholder="Enter Blog Title"
-                                value="{{ $blog->title }}" 
+                                value="{{ $blog->title }}"
                                 required
                             >
                         </div>
@@ -39,7 +39,7 @@
                                 name="image"
                                 class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
                                 accept="image/*"
-                                required
+                                
                             >
                         </div>
                         <button

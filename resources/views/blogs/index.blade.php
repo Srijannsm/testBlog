@@ -13,16 +13,24 @@
                         <img class="w-full h-48 object-cover object-center" src="{{ asset('storage/' . $blog->image) }}">
                         <div class="p-6 flex-1 flex flex-col justify-between">
                             <div>
-                                <h5 class="text-xl font-semibold">{{ $blog->title }}</h5>
+                                <h5 class="text-xl font-semibold">
+                                    {{Str::limit ($blog->title,20) }}
+                                </h5>
                                 <p class="text-xs text-gray-600 break-words mb-4">
                                     {{ Str::limit($blog->description, 150) }}
                                 </p>
                             </div>
                             <div class="mt-auto">
-                                <div class="flex justify-between items-center">
-                                    <p class="text-sm text-gray-500">Author: {{ $blog->author }}</p>
-                                    <p class="text-sm text-gray-500">{{ $blog->created_at->format('M d, Y') }}</p>
-                                </div>
+                                <div class="flex flex-col items-start space-y-2">
+                                    {{-- @dd($categories); --}}
+                                     @if (isset($categories[$blog->categoryid]))
+                                         <p class="text-sm text-green-500">Category: {{ $categories[$blog->categoryid] }}</p>
+                                     @else
+                                         <p class="text-sm text-gray-500">Category: Not Available</p>
+                                     @endif
+                                     <p class="text-sm text-gray-500">Author: {{ $blog->author }}</p>
+                                     <p class="text-sm text-gray-500">{{ $blog->created_at->format('M d, Y') }}</p>
+                                 </div>
                                 @if (auth()->check() && auth()->user()->id === $blog->userid)
                                     <div class="mt-4">
                                         <a href="{{ route('blogs.edit', $blog->id) }}"

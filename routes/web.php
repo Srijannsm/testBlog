@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,5 +36,9 @@ Route::middleware('auth')->group(function () {
 
 Route::get('blogs/user',[BlogController::class, 'indexUser'])->name('blogs.user');
 Route::resource('blogs', BlogController::class);
+
+
+//categories
+Route::resource('blogs/categories', CategoryController::class);
 
 require __DIR__.'/auth.php';

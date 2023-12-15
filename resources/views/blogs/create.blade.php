@@ -1,8 +1,9 @@
 <x-app-layout>
+
     <div class="py-12">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+                <div class="p-20 text-gray-900">
                     <h2 class="text-2xl font-semibold mb-4">Create a New Blog Post</h2>
                     <form class="w-full max-w-lg" method="POST" action="{{ route('blogs.store') }}"
                         enctype="multipart/form-data">
@@ -21,12 +22,29 @@
                                 placeholder="Enter Blog Description" rows="4" required></textarea>
                         </div>
                         <div class="mb-4">
+                            <label for="category" class="block text-sm font-medium text-gray-600 mb-2">Category</label>
+                            <select id="category" name="category"
+                                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                                required>
+                                <option value="">Select Category</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+
+                        </div>
+
+                        <div class="mb-4">
                             <label for="image" class="block text-sm font-medium text-gray-600 mb-2">Upload
                                 Image</label>
-                            <input type="file" id="image" name="image"
+                                <input type="file" id="image" name="image"
                                 class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
                                 accept="image/*" required>
+                                @if ($errors->has('image'))
+                                    <div class="text-red-500 text-xs mt-1">{{ $errors->first('image') }}</div>
+                                @endif
                         </div>
+
                         <button
                             class="w-full p-3 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
                             type="submit">
@@ -37,4 +55,5 @@
             </div>
         </div>
     </div>
+
 </x-app-layout>
