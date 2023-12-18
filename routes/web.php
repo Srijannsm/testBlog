@@ -41,4 +41,8 @@ Route::resource('blogs', BlogController::class);
 //categories
 Route::resource('blogs/categories', CategoryController::class);
 
+//category ajax
+Route::get('/blogs/filter-by-category/{categoryId}', [BlogController::class, 'filterByCategory']);
+
+
 require __DIR__.'/auth.php';

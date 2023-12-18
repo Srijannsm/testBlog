@@ -24,6 +24,22 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        .category-filter {
+            /* Your existing styles */
+            transition: background-color 0.3s ease; /* Smooth transition */
+        }
+
+        .category-filter:hover {
+            background-color: #3182ce; /* Change color on hover */
+            cursor: pointer;
+        }
+
+        .selected-category {
+            background-color: #3182ce !important; /* Change color for selected category */
+        }
+    </style>
+
 </head>
 
 <body class="font-sans antialiased">

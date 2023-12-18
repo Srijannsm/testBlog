@@ -12,17 +12,16 @@ use Illuminate\Support\Facades\Auth;
 
 class BlogController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $blogs = Blog::all(); // Retrieve all blog entries
-
-        // Fetch category names for each blog using the category_id
+        $allCategories = Category::all();
+        $blogs = Blog::all();
         $categoryIds = $blogs->pluck('categoryid')->unique()->toArray();
         $categories = DB::table('categories')->whereIn('id', $categoryIds)->pluck('name', 'id');
-        // dd($categories);
 
-        return view('blogs', ['blogs' => $blogs, 'categories' => $categories]);
+        return view('blogs', ['blogs' => $blogs, 'categories' => $categories, 'allCategories' => $allCategories]);
     }
+
     public function indexUser()
     {
         $user = Auth::user();
@@ -61,7 +60,7 @@ class BlogController extends Controller
             'image' => $imagePath,
             'title' => $data['title'],
             'author' => $user->name,
-            'description' => $data['description'],
+            "description" => $data['description'],
             'categoryid' => $data['category'],
         ]);
         // dd($newBlog);
@@ -71,33 +70,33 @@ class BlogController extends Controller
 
 
 
-        public function show($id)
-        {
-            $blog = Blog::findOrFail($id);
-            $categoryIds = $blog->pluck('categoryid')->unique()->toArray();
-            $categories = DB::table('categories')->whereIn('id', $categoryIds)->pluck('name', 'id');
-            // dd($categories);
-            $categoryId = $blog->categoryid;
+    public function show($id)
+    {
+        $blog = Blog::findOrFail($id);
+        $categoryIds = $blog->pluck('categoryid')->unique()->toArray();
+        $categories = DB::table('categories')->whereIn('id', $categoryIds)->pluck('name', 'id');
+        // dd($categories);
+        $categoryId = $blog->categoryid;
 
 
-            // Fetch the parent category ID for the current blog
-            $parentCategoryId = Category::where('id', $categoryId)->value('parent_id');
+        // Fetch the parent category ID for the current blog
+        $parentCategoryId = Category::where('id', $categoryId)->value('parent_id');
 
-            $parentCategory = Category::find($blog->categoryid)->parent;
-
-
-            // Fetch related blogs based on the same category ID and parent ID
-            $relatedBlogs = Blog::where('id', '!=', $id)
-        ->where(function ($query) use ($categoryId, $parentCategoryId) {
-            $query->where('categoryid', $categoryId)
-                ->orWhere('categoryid', $parentCategoryId);
-        })
-        ->limit(4)
-        ->get();
+        $parentCategory = Category::find($blog->categoryid)->parent;
 
 
-            return view('blogs.show', compact('blog', 'relatedBlogs', 'categories','parentCategory'));
-        }
+        // Fetch related blogs based on the same category ID and parent ID
+        $relatedBlogs = Blog::where('id', '!=', $id)
+            ->where(function ($query) use ($categoryId, $parentCategoryId) {
+                $query->where('categoryid', $categoryId)
+                    ->orWhere('categoryid', $parentCategoryId);
+            })
+            ->limit(4)
+            ->get();
+
+
+        return view('blogs.show', compact('blog', 'relatedBlogs', 'categories', 'parentCategory'));
+    }
 
 
     public function edit($id)
@@ -142,5 +141,17 @@ class BlogController extends Controller
         $blog->delete();
         session()->flash('success', 'Blog deleted successfully.');
         return redirect()->route('blogs.user');
+    }
+
+    public function filterByCategory($categoryId)
+    {
+        // dd($categoryId);
+        $blogs = Blog::where('categoryid', $categoryId)->get();
+        $categoryName = Category::where('id', $categoryId)->value('name');
+
+        return view('blogs_partial', [
+            'blogs' => $blogs,
+            'categoryName' => $categoryName,
+        ])->render();
     }
 }
